@@ -2,6 +2,10 @@
 from __future__ import print_function
 import datetime
 import os
+import time
+
+time.sleep(3)
+
 class FPS:
 	def __init__(self):
 		# store the start time, end time, and total number of frames
@@ -69,7 +73,7 @@ import imutils
 ap = argparse.ArgumentParser()
 ap.add_argument("dir", type = str, help = "Directory to put frames in")
 ap.add_argument("base", type = str, help = "Base file name")
-ap.add_argument("-n", "--num-frames", type=int, default=500,
+ap.add_argument("-n", "--num-frames", type=int, default=250,
 	help="# of frames to loop over for FPS test")
 args = ap.parse_args()
 if not os.path.exists(args.dir):
@@ -91,17 +95,21 @@ while fps._numFrames < args.num_frames:
 	frames.append(frame)
 	# update the FPS counter
 	fps.update()
-# stop the timer and display FPS information
+# stop the timer and display FPS information to screen
 fps.stop()
 print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 count = 1
 for frame in frames:
-        fname = os.path.join(args.dir, args.base+ str(count) + ".png")
+        fname = os.path.join(args.dir, args.base + str(count) + ".png")
         cv2.imwrite(fname,frame)
         count += 1
 
+infoFile = open(os.path.join(args.dir, args.base + 'info.txt'), 'x')
+infoFile.write("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+infoFile.write("\n[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+infoFile.close()
+
 # do a bit of cleanup
 vs.stop()
-
