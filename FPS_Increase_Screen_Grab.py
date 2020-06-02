@@ -6,6 +6,12 @@ import time
 
 time.sleep(3)
 
+def printAndLog(info):
+	print(info)
+	f = open(os.path.join(args.dir, '00' + args.base + 'info.txt'), 'x')
+	f.write(info)
+	f.close
+
 class FPS:
 	def __init__(self):
 		# store the start time, end time, and total number of frames
@@ -97,8 +103,6 @@ while fps._numFrames < args.num_frames:
 	fps.update()
 # stop the timer and display FPS information to screen
 fps.stop()
-print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
-print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
 count = 1
 for frame in frames:
@@ -106,10 +110,8 @@ for frame in frames:
         cv2.imwrite(fname,frame)
         count += 1
 
-infoFile = open(os.path.join(args.dir, args.base + 'info.txt'), 'x')
-infoFile.write("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
-infoFile.write("\n[INFO] approx. FPS: {:.2f}".format(fps.fps()))
-infoFile.close()
+info = "[INFO] elasped time: {:.2f}\n[INFO] approx. FPS: {:.2f}".format(fps.elapsed(),fps.fps())
+printAndLog(info)
 
 # do a bit of cleanup
 vs.stop()
