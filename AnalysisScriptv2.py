@@ -117,6 +117,7 @@ for filename in filenames:
                 avg6 = float(base6 / len(pos6c))
                 print(avg6)
 
+#Past here requires work
 
 
 # # ANALYSIS OF EXTRACTED DATA
